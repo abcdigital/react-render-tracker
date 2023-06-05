@@ -21,7 +21,7 @@ app.use("/dist", express.static(path.join(__dirname, "../dist")));
 app.get("/open-in-editor", openInEditor());
 app.use(express.static(playgroundDir));
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 3023, function () {
   const host = `http://localhost:${this.address().port}`;
 
   console.log(`Server listen on ${host}`);
