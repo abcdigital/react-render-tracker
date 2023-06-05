@@ -164,16 +164,19 @@ async function buildBundle(config) {
   config = config || {};
 
   if (!config.outfile && config.write) {
-    config.outfile = path.join(basePath, "dist/react-render-tracker.js");
+    config.outfile = path.join(
+      basePath,
+      `dist/react-render-tracker${config.minify === false ? "" : ".min"}.js`
+    );
   }
 
   const __SUBSCRIBER_SRC__ = await buildSubscriber(
     {
-      minify: true,
+      minify: config.minify ?? true,
       sourcemap: false,
     },
     {
-      minify: true,
+      minify: config.minify ?? true,
       sourcemap: false,
     }
   );
@@ -202,7 +205,10 @@ async function buildHeadlessBrowserModules(config, skipDepsBuild) {
   const define = {
     __RRT_SOURCE__: JSON.stringify(
       fs.readFileSync(
-        path.join(basePath, "dist/react-render-tracker.js"),
+        path.join(
+          basePath,
+          `dist/react-render-tracker${config.minify === false ? "" : ".min"}.js`
+        ),
         "utf8"
       )
     ),
@@ -236,6 +242,7 @@ async function buildHeadlessBrowserModules(config, skipDepsBuild) {
 if (require.main === module) {
   (async () => {
     await buildBundle({ logLevel: "info", write: true });
+    await buildBundle({ logLevel: "info", write: true, minify: false });
     await buildDataClient({ logLevel: "info", write: true });
     await buildDataUtils({ logLevel: "info", write: true });
     await buildHeadlessBrowserModules({ logLevel: "info" }, true);
