@@ -15,7 +15,7 @@ import {
 import { TrackingObjectFiber } from "../../common/constants";
 import { ExposedToGlobalLeaksState } from "rempl";
 
-const DEBUG_OUTPUT = true;
+const DEBUG_OUTPUT = false;
 const fiberProps = [
   "alternate",
   "child",
